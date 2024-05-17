@@ -1,0 +1,72 @@
+Algoritmo velocidadSonido
+	
+	Escribir "Ingrese la unidad de medida de la temperatura (c C, f F, k K):"
+	Leer unidadMedida
+	
+	validMedida <- (unidadMedida ='c' o unidadMedida = 'C' o unidadMedida ='c' o unidadMedida = 'C' o unidadMedida ='f' o unidadMedida = 'F' o unidadMedida ='k' o unidadMedida = 'K') 
+
+	si (validMedida) Entonces
+		
+		Escribir "Ingrese la temperatura"
+		Leer temperatura
+		
+		si (unidadMedida = 'f'o unidadMedida ='F') Entonces
+			temperatura <- (temperatura -32)*5/9 + 273.15
+		SiNo
+			si(unidadMedida = 'c'o unidadMedida ='C') Entonces
+				si ( temperatura >0 y temperatura<200) Entonces
+					temperatura <- temperatura+273.15
+				SiNo
+					Escribir "La temperatura no se encuentra en el rango ]0,200[ grados celsius"
+				FinSi
+			FinSi
+		FinSi
+		
+		Escribir "Ingrese la presion (atm) :"
+		Leer presion
+		si (presion>0) Entonces
+			Escribir "Ingrese el tipo de gas (H h,N n, A a,M m) :"
+			Leer tipoGas
+			validGas<-( tipoGas ='H' o tipoGas= 'h' o tipoGas ='N' o tipoGas= 'n' o tipoGas ='A' o tipoGas= 'a' o tipoGas ='m' o tipoGas= 'M')
+			
+			si (validGas) Entonces
+				si(tipoGas  ='H' o tipoGas= 'h') Entonces
+					densidad<-0.09
+					gradoLibertad <-5
+				SiNo
+					si(tipoGas ='N' o tipoGas= 'n') Entonces
+						densidad <- 1.25
+						gradoLibertad<-5
+					SiNo
+						si(tipoGas ='A' o tipoGas= 'a') Entonces
+							densidad<-1.8
+							gradoLibertad<-3
+						SiNo
+							densidad <- 0.769
+							gradoLibertad<-6
+						FinSi
+					FinSi
+				FinSi
+			SiNo
+			Escribir "El tipo de gas es incorrecto"
+			FinSi
+			
+		FinSi
+		coefDilatacion <- ( gradoLibertad + 2)/gradoLibertad
+		masaMolar <- (8.317 * temperatura*densidad)/(presion*101325)		
+		velocidad<- raiz(coefDilatacion*8.317*temperatura/masaMolar)/1000
+		Escribir "Para el gas ", tipoGas
+		
+		Escribir "-------------------"
+		Escribir "El coeficiente de dilatacion adiabatica es ", coefDilatacion
+		Escribir "La masa molar es:", masaMolar
+		Escribir "La velocidad del sonido es: ", velocidad
+	sino
+		Escribir "La unidad de medida de la temperatura es incorrecta"
+		
+	FinSi
+	
+
+	
+	
+FinAlgoritmo
