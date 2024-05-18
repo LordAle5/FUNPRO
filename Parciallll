@@ -70,3 +70,108 @@ Algoritmo velocidadSonido
 	
 	
 FinAlgoritmo
+
+//multassssss
+#include <stdio.h>
+#include<math.h>
+#define zEscolar 25
+#define zHospital 20
+#define zComercial 30
+#define zResidencial 50
+    
+int validarDatos(double distancia,double tiempo,int puntaje,int distrito,char zona);
+double hallarVelocidad(double distancia, double tiempo);
+void exceso_Multa (double velocidadKmH, double velocidadMaxima, int baseCobranza,double *excedio,double *montoMulta,int *puntaje);
+
+int main(){
+	int distrito,validOk,puntaje,baseCobranza ;
+	double distancia,tiempo,velocidad,velocidadKmH,velocidadMaxima,montoMulta,excedio;
+	char zona;
+	
+	printf("Ingrese el distrito por donde se desplazo: ");
+	scanf("%d",&distrito);
+	printf("Ingrese el tipo de zona por donde se desplazo: ");
+	scanf(" %c",&zona);
+	printf("Ingrese la disntacia recorrida en metros: ");
+	scanf("%lf",&distancia);
+	printf("Ingrese el tiempo en segundos: ");
+	scanf("%lf",&tiempo);
+	printf("Ingrese el puntaje del conductor: ");
+	scanf("%d",&puntaje);
+
+	validOk = validarDatos(distancia,tiempo,puntaje,distrito,zona);
+	if(validOk){
+		if(distrito==1){
+			baseCobranza = 5200;
+		}
+		else{
+			baseCobranza = 4800;
+		}
+		if(zona=='E'){
+			velocidadMaxima = zEscolar;
+		}
+		else{
+			if(zona=='H'){
+				velocidadMaxima = zHospital;
+			}
+			else{
+				if(zona=='C'){
+					velocidadMaxima = zComercial;
+				}
+				else{
+					velocidadMaxima = zResidencial;
+				}	
+			}
+		}
+		
+		velocidadKmH = hallarVelocidad(distancia,tiempo);
+		exceso_Multa (velocidadKmH, velocidadMaxima,baseCobranza,&excedio,&montoMulta,&puntaje);
+		
+		printf("Su velocidad en KM/h es: %.2lf\n",velocidadKmH);
+		if(excedio>0){
+			printf("Execedio la velocidad permitida en: %.2lf\n", excedio);
+			printf("Su multa es : %.2lf nuevos soles y su puntaje es: %d\n",montoMulta,puntaje);
+			if(puntaje<=0){
+				printf("Su brevete ha sido suspendido");
+			}
+		}
+		else{
+			printf("Felicitaciones,no tiene multa, tampoco se ha disminuido su puntaje");
+		}
+	}
+	else{
+		printf("Los datos ingresados no son validos");
+	}
+return 0;
+}
+
+int validarDatos(double distancia,double tiempo,int puntaje,int distrito,char zona){
+	
+	int ZonaValida = ((distrito ==1 && (zona== 'E' || zona== 'C' ||zona== 'R')) || (distrito ==2 && (zona== 'H' || zona== 'E' )));
+	
+	return (ZonaValida && distancia>0 && tiempo>0 && puntaje<=100 && puntaje >0 );
+}
+
+double hallarVelocidad(double distancia, double tiempo){
+	return (distancia/1000)/(tiempo/3600);
+}
+
+void exceso_Multa (double velocidadKmH, double velocidadMaxima, int baseCobranza,double *excedio,double *montoMulta,int *puntaje){
+	*excedio= (velocidadKmH-velocidadMaxima);
+	if(*excedio<=10){
+		*montoMulta=0.18*baseCobranza;
+		*puntaje=*puntaje-20;
+	}
+	else{
+		if(*excedio>10 && *excedio<30){
+			*montoMulta=0.24*baseCobranza;
+			*puntaje=*puntaje-40;
+		}
+		else{
+			if(*excedio>30){
+			*montoMulta=0.50*baseCobranza;
+			*puntaje=*puntaje-60;
+			}
+		}
+	}
+}
