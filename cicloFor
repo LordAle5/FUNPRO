@@ -1,0 +1,20 @@
+#include <stdio.h>
+//while
+int main(){
+	int numero=1;		//inicializacion
+	while (numero<=10){  //condicion
+		printf("%d",numero);
+		numero++;   //actualizacion
+	}
+
+	return 0;
+}
+
+//for 
+
+int main(){
+	for(int numero=1;     numero<=10;   numero++){
+		//inicializacion  //condicion  //actualizacion
+		printf("%d",numero);
+	}
+}
