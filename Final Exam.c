@@ -97,3 +97,88 @@ void encontrarMayor(int cantNumeros,int min,int max,int *mayor,int *minMayor,int
 	
 }
 
+
+
+
+
+
+#include <stdio.h>
+
+int validarDatos(int min,int max);
+void mostrarNumerosRectilineos(int min, int max);
+void verificarNumeroRectilineo(int num,int *cumple,int *paso);
+int main (){
+	int min,max,datosOk;
+	printf("Ingrese el rango de numeros: ");
+	scanf("%d %d",&min,&max);
+	
+	datosOk=validarDatos(min,max);
+	if(datosOk){
+		mostrarNumerosRectilineos(min,max);
+	}
+	else{
+		printf("Rango incorrecto\n");
+	}
+	
+	return 0;
+}
+
+int validarDatos(int min,int max){
+	return min>99 && min<max;
+}
+
+void mostrarNumerosRectilineos(int min, int max){
+	int i,cont=0,paso,cumple,pasoMenor,numMenor;
+	i=min;
+	while(i<=max){
+		
+		verificarNumeroRectilineo(i,&cumple,&paso);
+		if(cumple){
+			printf("numero: %d - paso: %d\n",i,paso);
+			cont++;
+			
+			if(cont==1){
+				numMenor=i;
+				pasoMenor=paso;
+			}
+			else{
+				if(paso<=pasoMenor){
+					numMenor=i;
+					pasoMenor=paso;
+				}
+			}
+		}
+		i++;
+	}
+	printf("En el rango [%d %d] hay %d numeros rectilineos\n",min,max,cont);
+	if(cont>0){
+		printf("El mayor numero rectilineo con la progresion aritmetica menor es %d - paso: %d\n",numMenor,pasoMenor);
+	}
+	
+}
+
+void verificarNumeroRectilineo(int num,int *cumple,int *paso){
+	int dig,digAnt,i=0,difDig;
+	
+	*cumple=1;
+	while(num>0){
+		dig=num%10;
+		num=num/10;
+		
+		
+		if(i==1){
+			difDig=digAnt - dig;
+			*paso=difDig;
+		}
+		else{
+			if(i>1){
+				if(!(digAnt-dig==difDig)){
+					*cumple=0;
+				}
+			}
+		}
+		
+		i++;
+		digAnt=dig;
+	}
+}
